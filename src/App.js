@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import { useState } from "react";
 
 function App() {
+  const [data, setData] = useState({})
+  const [search, setSearch] = useState('')
+
+  const getWeatherInfo = () => {
+    axios.get(`https://em-weather-app-backend.herokuapp.com/?place=${search}`).then((res) => {
+      console.log(res.data)
+      setData(res.data)
+    })
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input value={search} onChange={(e) => setSearch(e.target.value)} />
+      <button onClick={getWeatherInfo}>Get Weather</button>
+
+      <br />
+      <br />
+
+      {data &&
+        <div>
+          <p>{data.forecast}</p>
+          <p>{data.location}</p>
+          <p>{data.place}</p>
+        </div>
+      }
+
     </div>
   );
 }
