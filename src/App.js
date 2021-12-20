@@ -4,32 +4,80 @@ import { useState } from "react";
 function App() {
   const [data, setData] = useState({})
   const [search, setSearch] = useState('')
+  const [flip, setFlip] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const getWeatherInfo = () => {
+  const getWeatherInfo = (e) => {
+    e.preventDefault();
+    setLoading(true)
+
     axios.get(`https://em-weather-app-backend.herokuapp.com/?place=${search}`).then((res) => {
+
       console.log(res.data)
       setData(res.data)
+      setLoading(false)
+      setFlip(true)
     })
+      .catch((error) => {
+        console.log(error)
+      })
+      .finally(() => {
+        loading(false)
+      })
   }
+
+  const returnToSearch = () => {
+    setFlip(false)
+  }
+
+  const throwE = search.length < 0 && data.error
 
 
   return (
-    <div>
-      <input value={search} onChange={(e) => setSearch(e.target.value)} />
-      <button onClick={getWeatherInfo}>Get Weather</button>
-
-      <br />
-      <br />
-
-      {data &&
-        <div>
-          <p>{data.forecast}</p>
-          <p>{data.location}</p>
-          <p>{data.place}</p>
+    <section className="text-white">
+      <div className="w-full bg-black border-b border-gray-700 ">
+        <div className="sm:w-9/12 w-11/12 mx-auto py-6">
+          <h1 className="sm:text-3xl text-2xl ">Weather App</h1>
         </div>
-      }
+      </div>
 
-    </div>
+      <div className="main">
+        <div className="md:w-4/12 sm:w-9/12 w-11/12">
+          {!flip &&
+            <form onSubmit={getWeatherInfo}>
+              <input
+                type="search"
+                placeholder="enter name of a place"
+                className="py-2 px-2 outline-none w-full rounded-2xl mb-3"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                // required
+              />
+              <button className="bg-green-600 rounded-2xl py-2 px-5 w-full">Get Weather Info</button>
+            </form>
+          }
+
+          <div>{data.error}</div>
+          <div>{throwE}</div>
+          <div>{loading && "Loading......."}</div>
+
+          {flip && !throwE  &&
+            <div className="weather-data">
+              <p><span>Forecast: </span> {data.forecast}</p>
+              <p><span>Location: </span> {data.location}</p>
+              <p><span>Country: </span> {data.place}</p>
+              <p><span>LocalTime: </span> {data.localtime}</p>
+              <div className="mt-4 flex items-center justify-between">
+                <img src={data.icon} alt="icon" />
+                <button className="rounded-2xl bg-red-600 py-1 px-2 " onClick={returnToSearch}>Search again</button>
+              </div>
+
+            </div>
+          }
+        </div>
+
+      </div>
+    </section>
   );
 }
 
