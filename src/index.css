@@ -28,3 +28,7 @@
 .weather-data span {
  font-weight: 700;
 }
+
+input{
+  border: 0.2px solid green
+}

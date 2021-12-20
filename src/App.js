@@ -7,6 +7,8 @@ function App() {
   const [flip, setFlip] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  const loader = "https://cutewallpaper.org/21/loading-gif-transparent-background/CBP-Portal.gif"
+
   const getWeatherInfo = (e) => {
     e.preventDefault();
     setLoading(true)
@@ -30,8 +32,6 @@ function App() {
     setFlip(false)
   }
 
-  const throwE = search.length < 0 && data.error
-
 
   return (
     <section className="text-white">
@@ -47,21 +47,20 @@ function App() {
             <form onSubmit={getWeatherInfo}>
               <input
                 type="search"
-                placeholder="enter name of a place"
-                className="py-2 px-2 outline-none w-full rounded-2xl mb-3 text-black"
+                placeholder="Enter name of a place"
+                className="py-2 bg-black px-3 outline-none w-full rounded-2xl mb-3"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 required
               />
-              <button className="bg-green-600 rounded-2xl py-2 px-5 w-full">Get Weather Info</button>
+              <button className="bg-green-600 rounded-2xl py-2 px-5 w-full mb-4">Get Weather Info</button>
             </form>
           }
 
           <div>{data.error}</div>
-          <div>{throwE}</div>
-          <div>{loading && "Loading......."}</div>
+          <div>{loading && <img className="w-60 mx-auto" src={loader} alt="loader" />}</div>
 
-          {flip && !throwE  &&
+          {flip &&
             <div className="weather-data">
               <p><span>Forecast: </span> {data.forecast}</p>
               <p><span>Location: </span> {data.location}</p>
@@ -69,7 +68,11 @@ function App() {
               <p><span>LocalTime: </span> {data.localtime}</p>
               <div className="mt-4 flex items-center justify-between">
                 <img src={data.icon} alt="icon" />
-                <button className="rounded-2xl bg-red-600 py-1 px-2 " onClick={returnToSearch}>Search again</button>
+                <button
+                  className="rounded-xl bg-red-800 py-2 px-3 "
+                  onClick={returnToSearch}>
+                  Try again
+                </button>
               </div>
 
             </div>
