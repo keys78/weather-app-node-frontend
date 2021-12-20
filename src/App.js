@@ -48,10 +48,10 @@ function App() {
               <input
                 type="search"
                 placeholder="enter name of a place"
-                className="py-2 px-2 outline-none w-full rounded-2xl mb-3"
+                className="py-2 px-2 outline-none w-full rounded-2xl mb-3 text-black"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                // required
+                required
               />
               <button className="bg-green-600 rounded-2xl py-2 px-5 w-full">Get Weather Info</button>
             </form>
