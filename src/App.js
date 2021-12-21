@@ -48,7 +48,7 @@ function App() {
               <input
                 type="search"
                 placeholder="Enter name of a place"
-                className="py-2 bg-black px-3 outline-none w-full rounded-2xl mb-3"
+                className="py-2 px-3 outline-none w-full rounded-2xl mb-3"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 required

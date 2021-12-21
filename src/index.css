@@ -30,5 +30,6 @@
 }
 
 input{
-  border: 0.2px solid green
+  border: 0.2px solid green;
+  background:black;
 }
